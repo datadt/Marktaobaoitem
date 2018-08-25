@@ -14,7 +14,7 @@ import re
 
 def tbpicdl(ids):
 	for id in ids:
-		url='https://detail.tmall.hk/hk/item.htm?id='+str(id)
+		url='https://item.taobao.com/item.htm?id='+str(id)
 		soup=BeautifulSoup(requests.get(url).text,'lxml')
 		s=soup.find_all('dl',attrs={'class':'tb-prop tm-sale-prop tm-clear tm-img-prop '})[0]#列表内元素
 		pattern=re.compile('//(.*?)_40x40q90.jpg')

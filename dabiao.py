@@ -27,6 +27,7 @@ def title(id):
 	t="ID:"+str(id)+'\n现价: ￥'+getprice(id)+'\n'+time.strftime("%Y/%m/%d %H:%M:%S", time.localtime())
 	return t
 
+
 if __name__ == '__main__':
 	ids=[570133905140]#测试ID
 	tiebiao(ids)

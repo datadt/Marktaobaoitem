@@ -10,24 +10,25 @@ import time
 from PIL import Image, ImageDraw, ImageFont
 from tbpic import tbpicdl
 from tbprice import getprice
+from multiprocessing import Pool
 
-def tiebiao(ids):
-	tbpicdl(ids)
-	for id in ids:
-		img = Image.open(str(id)+".jpg")
-		jgz = Image.open("logo.jpg")
-		img.paste(jgz,(10,10))
-		draw = ImageDraw.Draw(img)
-		ttfront = ImageFont.truetype('msyh.ttc',25)#自定义字体类型及大小
-		draw.text((11, 555),title(id),fill=(255,100,88), font=ttfront)#fill颜色
-		# img.show()#显示
-		img.save('{}.jpg'.format(str(id)))#保存
-		print("打标完成！")
+def tiebiao(id):
+	tbpicdl(id)
+	img = Image.open(str(id)+".jpg")
+	jgz = Image.open("logo.jpg")
+	img.paste(jgz,(10,10))
+	draw = ImageDraw.Draw(img)
+	ttfront = ImageFont.truetype('msyh.ttc',25)#自定义字体类型及大小
+	draw.text((11, 555),title(id),fill=(255,100,88), font=ttfront)#fill颜色
+	img.save('{}.jpg'.format(str(id)))#保存 # img.show()#显示
+	print("打标完成！")
+
 def title(id):
 	t="ID:"+str(id)+'\n现价: ￥'+getprice(id)+'\n'+time.strftime("%Y/%m/%d %H:%M:%S", time.localtime())
 	return t
 
 
 if __name__ == '__main__':
-	ids=[570133905140]#测试ID
-	tiebiao(ids)
+	ids=[570133905140,575649848152]#测试ID
+	pool = Pool()
+	pool.map_async(tiebiao,ids).get(120)#多进程版,加快处理速度

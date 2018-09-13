@@ -17,11 +17,12 @@ def getprice(id):
 	prefs = {"profile.managed_default_content_settings.images": 2}#禁止加载图片，提升效率
 	co.add_experimental_option("prefs", prefs)
 	browser = webdriver.Chrome(chrome_options=co)#,desired_capabilities=desired_capabilities
-
-	browser.get('https://item.taobao.com/item.htm?id='+str(id))
-	PromoPrice = browser.find_element_by_css_selector('#J_PromoPrice > dd > div > span').text#正常促销价
-	return PromoPrice
-	browser.quit()
+	try:
+		browser.get('https://detail.tmall.hk/hk/item.htm?id='+str(id))
+		PromoPrice = browser.find_element_by_css_selector('#J_PromoPrice > dd > div > span').text#正常促销价
+		return PromoPrice
+	finally:
+		browser.quit()
 
 
 

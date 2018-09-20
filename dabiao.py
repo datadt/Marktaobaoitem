@@ -10,7 +10,9 @@ import time
 from PIL import Image, ImageDraw, ImageFont
 from tbpic import tbpicdl
 from tbprice import getprice
+from tbshopitemid import gettmallid,getpages
 from multiprocessing import Pool
+
 
 def tiebiao(id):
 	tbpicdl(id)
@@ -27,8 +29,8 @@ def title(id):
 	t="ID:"+str(id)+'\n现价: ￥'+getprice(id)+'\n'+time.strftime("%Y/%m/%d %H:%M:%S", time.localtime())
 	return t
 
-
 if __name__ == '__main__':
-	ids=[570133905140,575649848152]#测试ID
-	pool = Pool()
-	pool.map_async(tiebiao,ids).get(120)#多进程版,加快处理速度
+	pool = Pool(processes=5)
+	name='huaweistore'#测试
+	result=pool.map_async(tiebiao,gettmallid(name,range(1,getpages(name)+1))).get(120)#多进程版
+	result.wait()
